@@ -17,7 +17,7 @@ var userDAO = require('../models/user/userDAO')(pg, url);
 
 //inscription
 userRoute.post('/add', function (req, res) {
-
+  console.log("adduser");
   var user = new User(null, req.body.login, authService().hashPassword(req.body.password), req.body.email, false, null);
   userDAO.create(user, {
     success: function (savedUser) {
