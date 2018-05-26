@@ -5,6 +5,7 @@ var express = require('express'),
     morgan = require('morgan'),
     passport = require('passport');
     engine = require('ejs-locals');
+    favocn = require('serve-favicon');
 
 // express-myconnection module
 
@@ -14,6 +15,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(passport.initialize());
 const port = process.env.PORT || 4000;
+
+
+// get static files such as CSS
+app.use(express.static(__dirname + '/public'));
+//app.use(favicon(__dirname + '/public/images/favicon.ico'));
+
 
 //view engine setup
 app.engine('ejs', engine);
@@ -33,6 +40,23 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
+
+// error handling
+app.use(function(err, req, res, next) {
+    console.log('Erreur : \n' + err);
+    if(err.status == 404) {
+        res.render('pages/404', {
+            title: 'Erreur', error: err
+        });
+    }
+    else {
+        res.render('pages/error', {
+            title: 'Erreur',
+            error: err
+        });
+    }
+});
+
 
 //Port d'écoute du fichier
 const server = app.listen(port, function () {
