@@ -10,7 +10,7 @@ var pg = require('pg');
 var url = process.env.DATABASE_URL;
 
 //DTO et DAO
-var User = require('../models/user/user');
+
 var userDAO = require('../models/user/userDAO')(pg, url);
 
 //accueil

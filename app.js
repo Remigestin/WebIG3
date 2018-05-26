@@ -5,7 +5,8 @@ var express = require('express'),
     morgan = require('morgan'),
     passport = require('passport');
     engine = require('ejs-locals');
-    favocn = require('serve-favicon');
+    favicon = require('serve-favicon');
+    cookieParser = require('cookie-parser');
 
 // express-myconnection module
 
@@ -16,10 +17,12 @@ app.use(cors());
 app.use(passport.initialize());
 const port = process.env.PORT || 4000;
 
+app.use(cookieParser());
+
 
 // get static files such as CSS
 app.use(express.static(__dirname + '/public'));
-//app.use(favicon(__dirname + '/public/images/favicon.ico'));
+app.use(favicon(__dirname + '/public/images/icone.png'));
 
 
 //view engine setup
@@ -30,6 +33,7 @@ app.set('view engine', 'ejs');
 // router
 var router = require('./routes/mainRouteur');
 // routes
+
 
 
 app.use('*',router);

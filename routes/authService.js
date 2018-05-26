@@ -9,7 +9,7 @@ module.exports = function(){
 
   //callback succeed if authenticate succeed, otherwise callback fail
   module.authenticate = function (req, callback) {
-    var token = -1;
+    var token = req.cookies['zicotech'];
     if (token){
       jwt.verify(token, randomSecretKey, function (err, decoded) {
         if(err){
