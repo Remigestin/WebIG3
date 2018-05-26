@@ -5,8 +5,8 @@ console.log("main Router");
 
 userRoute = require('../routes/userRouteur');
 homeRoute = require('../routes/homeRouteur')
-router.use('', homeRoute);
 router.use('/user', userRoute);
+router.use('', homeRoute);
 
 
 
