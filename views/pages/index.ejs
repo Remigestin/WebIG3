@@ -8,18 +8,31 @@
 <div class="product">
     <div class="container">
         <div class="product-top">
+
             <div class="product-one">
-                <div class="col-md-3 product-left">
-                    <div class="product-main simpleCart_shelfItem">
-                        <a href="single.html" class="mask"><img class="img-responsive zoom-img" src="images/p-1.png" alt="" /></a>
+                <% albums.forEach(function(album) { %>
+                <div class="col-sm-4 product-left p-left" onClick>
+                    <div class="product-main simpleCart_shelfItem list-albumbox">
+                        <a href="/album/<%= album.idalbum %>" class="list-albumbox-img mask "><img class="img-responsive" src="<%= album.imagealbum %>" alt="" /></a>
                         <div class="product-bottom">
-                            <h3>Smart Watches</h3>
-                            <p>Explore Now</p>
-                            <h4><a class="item_add" href="#"><i></i></a> <span class=" item_price">$ 329</span></h4>
-                        </div>
-                        <div class="srch">
-                            <span>-50%</span>
-                        </div>
+                            <div class="list-title list-albumbox-title">
+                                <h3 ><%= album.nomalbum %></h3>
+                            </div>
+                            <p><%= album.nomartiste%></p>
+                            <h4><a class="item_add" href="#"><i></i></a> <span class=" item_price"><%= album.prixalbum %> €</span></h4>
+
+
+                            <% if(album.discountalbum > 0) { %>
+
+                            <div class="srch">
+                                <span><%= album.discountalbum %>%</span>
+                            </div>
+
+                            <%} else { %>
+                            <div style="height:29px"></div>
+                            <%}%>
+                            </div>
+                        <% }); %>
                     </div>
                 </div>
                 <div class="col-md-3 product-left">
@@ -167,23 +180,3 @@
     </div>
 </div>
 <!--information-end-->
-<!--footer-starts-->
-<div class="footer">
-    <div class="container">
-        <div class="footer-top">
-            <div class="col-md-6 footer-left">
-                <form>
-                    <input type="text" value="Enter Your Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Your Email';}">
-                    <input type="submit" value="Subscribe">
-                </form>
-            </div>
-            <div class="col-md-6 footer-right">
-                <p>© 2015 Luxury Watches. All Rights Reserved | Design by  <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-</div>
-<!--footer-end-->
-</body>
-</html>

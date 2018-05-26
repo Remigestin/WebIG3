@@ -34,8 +34,6 @@ app.set('view engine', 'ejs');
 var router = require('./routes/mainRouteur');
 // routes
 
-
-
 app.use('*',router);
 
 // catch 404 and forwarding to error handler

@@ -1,5 +1,3 @@
-var user = require("./user.js");
-
 module.exports = function(pg, url) {
 
   var module = {};
