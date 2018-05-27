@@ -7,7 +7,27 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <% layout('../layout') %>
 <% include ../../partials/head.ejs %>
 
+<!--bottom-header-->
+<div class="header-bottom">
+    <div class="container">
+        <div class="header">
+            <div class="col-md-9 header-left">
+                <div class="top-nav">
+                    <ul class="memenu skyblue"><li class="grid"><a href="/">Home</a></li>
+                        <li class="active"><a href="/user/signin">Se Connecter</a>
 
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>
+<!--bottom-header-->
 <!--account-starts-->
 <div class="account">
     <div class="container">
@@ -19,8 +39,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <h3>Existing User</h3>
                 <form method="post" action="/user/signin">
                     <div class="account-bottom">
-                        <input placeholder="Pseudo" type="text" tabindex="3" required>
-                        <input placeholder="Password" type="password" tabindex="4" required>
+                        <input name="pseudo" placeholder="Pseudo" type="text" tabindex="3" required>
+                        <input name="password" placeholder="Password" type="password" tabindex="4" required>
                         <div class="address">
                             <!--<a class="forgot" href="#">Forgot Your Password?</a> -->
                             <input type="submit" value="Login">

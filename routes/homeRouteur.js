@@ -1,9 +1,8 @@
-module.exports.controller = function (app) {
+module.exports.controller = function (app, authService) {
 
 
 
-//authentifications method
-    const authService = require('./authService');
+
 
 //BD
     var pg = require('pg');
@@ -20,8 +19,9 @@ module.exports.controller = function (app) {
 
         albumDAO.getAll({
             success: function (albums) {
-                authService().authenticate(req, {
+                authService.authenticate(req, {
                     success: function (id) {
+                        console.log('check oui');
                         userDAO.getById(id, {
                             success: function (user) {
                                 res.status(200);
@@ -29,10 +29,12 @@ module.exports.controller = function (app) {
                                     title: 'Zicotech',
                                     authenticated: true,
                                     albums: albums.rows,
-                                    isadmin: user.isadmin
+                                    isadmin: user.isadmin,
+                                    pseudo: user.pseudo
                                 });
                             },
                             fail: function (err) {
+
                                 res.status(500);
                                 res.render('pages/error/error');
                             }
@@ -40,6 +42,7 @@ module.exports.controller = function (app) {
                     },
 
                     fail: function () {
+                        console.log('check non');
                         res.status(200);
                         res.render('pages/index', {title: 'Zicotech', authenticated: false, albums: albums.rows});
                     }

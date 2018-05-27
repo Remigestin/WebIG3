@@ -7,6 +7,12 @@ var express = require('express'),
     engine = require('ejs-locals');
     favicon = require('serve-favicon');
     cookieParser = require('cookie-parser');
+    bcrypt = require('bcryptjs');
+    uuidv4 = require('uuid/v4');
+    jwt = require('jsonwebtoken');
+
+
+const randomSecretKey = uuidv4();
 
 // express-myconnection module
 
@@ -30,8 +36,9 @@ app.engine('ejs', engine);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-require('./routes/homeRouteur').controller(app);
-require('./routes/userRouteur').controller(app);
+var authService = require('./routes/authService')(randomSecretKey, bcrypt, jwt);
+require('./routes/homeRouteur').controller(app, authService);
+require('./routes/userRouteur').controller(app, authService);
 
 // catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

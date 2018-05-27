@@ -1,7 +1,6 @@
-module.exports.controller = function (app) {
+module.exports.controller = function (app, authService) {
 
-//authentifications method
-    const authService = require('./authService');
+
 
 
 //BD
@@ -22,12 +21,13 @@ module.exports.controller = function (app) {
 
     app.post('/user/signup', function (req, res) {
         console.log("adduser");
-        var user = new User(null, req.body.login, authService().hashPassword(req.body.password), req.body.email, false, null);
+        var user = new User(null, req.body.login, authService.hashPassword(req.body.password), req.body.email, false, null);
         userDAO.create(user, {
             success: function (savedUser) {
                 var token = authService().createToken(savedUser.iduser);
-                res.cookie('userToken', token, {expires: new Date(Date.now() + 900000), httpOnly: true});
-                res.status(200).json(savedUser);
+                res.cookie('Zicotech', token, {expires: new Date(Date.now() + 900000), httpOnly: true});
+                res.status(200);
+                res.redirect('/');
             },
 
             fail: function (errors) {
@@ -44,13 +44,15 @@ module.exports.controller = function (app) {
     app.post('/user/signin', function (req, res) {
         console.log("signin");
 
-        var user = new User(null, req.body.login, authService().hashPassword(req.body.password), req.body.email, false, null);
-        userDAO.getByName(req.body.pseudo, {
+        var user = new User(null, req.body.login, authService.hashPassword(req.body.password), req.body.email, false, null);
+        userDAO.getByPseudo(req.body.pseudo, {
             success: function (user) {
-                if (authService().checkPassword(req.body.password, user.password)) {
-                    var token = authService().createToken(user.iduser);
-                    res.cookie('userToken', token, {expires: new Date(Date.now() + 900000), httpOnly: true});
-                    res.status(200).json(user);
+                if (authService.checkPassword(req.body.password, user.password)) {
+                    var token = authService.createToken(user.iduser);
+                    res.cookie('Zicotech', token, {expires: new Date(Date.now() + 900000), httpOnly: true});
+                    res.status(200);
+                    res.redirect('/');
+
                 } else {
                     res.status(401);
                 }

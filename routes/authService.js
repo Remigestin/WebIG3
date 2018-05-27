@@ -1,16 +1,15 @@
-module.exports = function(){
-  const bcrypt = require('bcryptjs');
-  const uuidv4 = require('uuid/v4');
-  const jwt = require('jsonwebtoken');
+module.exports = function(randomSecretKey, bcrypt, jwt){
 
-  const randomSecretKey = uuidv4();
+
 
   const module = {};
 
   //callback succeed if authenticate succeed, otherwise callback fail
   module.authenticate = function (req, callback) {
-    var token = req.cookies['zicotech'];
+      console.log(randomSecretKey);
+    var token = req.cookies['Zicotech'];
     if (token){
+    console.log(token);
       jwt.verify(token, randomSecretKey, function (err, decoded) {
         if(err){
           callback.fail("WRONG_TOKEN_AUTH");
