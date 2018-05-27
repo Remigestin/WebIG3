@@ -10,7 +10,7 @@ var express = require('express'),
 
 // express-myconnection module
 
-const app = express();
+var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
@@ -30,11 +30,8 @@ app.engine('ejs', engine);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-// router
-var router = require('./routes/mainRouteur');
-// routes
-
-app.use('*',router);
+require('./routes/homeRouteur').controller(app);
+require('./routes/userRouteur').controller(app);
 
 // catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
@@ -47,12 +44,12 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
     console.log('Erreur : \n' + err);
     if(err.status == 404) {
-        res.render('pages/404', {
+        res.render('pages/error/404', {
             title: 'Erreur', error: err
         });
     }
     else {
-        res.render('pages/error', {
+        res.render('pages/error/error', {
             title: 'Erreur',
             error: err
         });
