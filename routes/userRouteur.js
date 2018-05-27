@@ -62,4 +62,16 @@ module.exports.controller = function (app, authService) {
             }
         });
     });
+
+    //deconnexion
+    app.get('/user/signout', function(req, res){
+        res.clearCookie('Zicotech');
+        res.redirect('/');
+    })
+
+
+
+
+
+
 }

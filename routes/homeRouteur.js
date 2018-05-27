@@ -30,7 +30,7 @@ module.exports.controller = function (app, authService) {
                                     authenticated: true,
                                     albums: albums.rows,
                                     isadmin: user.isadmin,
-                                    pseudo: user.pseudo
+                                    pseudo: user.login
                                 });
                             },
                             fail: function (err) {
