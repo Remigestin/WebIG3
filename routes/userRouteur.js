@@ -15,7 +15,12 @@ module.exports.controller = function (app) {
 
 
 //inscription
-    app.post('/user/add', function (req, res) {
+
+    app.get('/user/signup', function(req, res) {
+        res.render('pages/user/signup', {title: 'Inscription'});
+    });
+
+    app.post('/user/signup', function (req, res) {
         console.log("adduser");
         var user = new User(null, req.body.login, authService().hashPassword(req.body.password), req.body.email, false, null);
         userDAO.create(user, {
@@ -32,6 +37,9 @@ module.exports.controller = function (app) {
     });
 
 //connexion
+    app.get('/user/signin', function (req, res) {
+      res.render('pages/user/signin', {title: 'Connexion'});
+    });
 
     app.post('/user/signin', function (req, res) {
         console.log("signin");

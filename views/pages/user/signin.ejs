@@ -1,0 +1,86 @@
+<!--A Design by W3layouts
+Author: W3layout
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<% layout('../layout') %>
+<% include ../../partials/head.ejs %>
+
+
+<!--account-starts-->
+<div class="account">
+    <div class="container">
+        <div class="account-top heading">
+            <h2>ACCOUNT</h2>
+        </div>
+        <div class="account-main">
+            <div class="col-md-6 account-left">
+                <h3>Existing User</h3>
+                <form method="post" action="/user/signin">
+                    <div class="account-bottom">
+                        <input placeholder="Pseudo" type="text" tabindex="3" required>
+                        <input placeholder="Password" type="password" tabindex="4" required>
+                        <div class="address">
+                            <!--<a class="forgot" href="#">Forgot Your Password?</a> -->
+                            <input type="submit" value="Login">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6 account-right account-left">
+                <h3>New User? Create an Account</h3>
+                <p>By creating an account with our store, you will be able to move through the checkout process faster,
+                    store multiple shipping addresses, view and track your orders in your account and more.</p>
+                <a href="/user/signup">Create an Account</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!--account-end-->
+<!--information-starts-->
+<div class="information">
+    <div class="container">
+        <div class="infor-top">
+            <div class="col-md-3 infor-left">
+                <h3>Follow Us</h3>
+                <ul>
+                    <li><a href="#"><span class="fb"></span><h6>Facebook</h6></a></li>
+                    <li><a href="#"><span class="twit"></span><h6>Twitter</h6></a></li>
+                    <li><a href="#"><span class="google"></span><h6>Google+</h6></a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 infor-left">
+                <h3>Information</h3>
+                <ul>
+                    <li><a href="#"><p>Specials</p></a></li>
+                    <li><a href="#"><p>New Products</p></a></li>
+                    <li><a href="#"><p>Our Stores</p></a></li>
+                    <li><a href="contact.html"><p>Contact Us</p></a></li>
+                    <li><a href="#"><p>Top Sellers</p></a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 infor-left">
+                <h3>My Account</h3>
+                <ul>
+                    <li><a href="account.html"><p>My Account</p></a></li>
+                    <li><a href="#"><p>My Credit slips</p></a></li>
+                    <li><a href="#"><p>My Merchandise returns</p></a></li>
+                    <li><a href="#"><p>My Personal info</p></a></li>
+                    <li><a href="#"><p>My Addresses</p></a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 infor-left">
+                <h3>Store Information</h3>
+                <h4>The company name,
+                    <span>Lorem ipsum dolor,</span>
+                    Glasglow Dr 40 Fe 72.</h4>
+                <h5>+955 123 4567</h5>
+                <p><a href="mailto:example@email.com">contact@example.com</a></p>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!--information-end-->
