@@ -1,0 +1,118 @@
+<% layout('../layout') -%>
+<% if(!locals.authenticated) {%>
+<% include ../../partials/head.ejs %>
+<%};%>
+
+<% if (locals.authenticated) {%>
+<% include ../../partials/headConnect%>
+<%};%>
+
+<!--start-single-->
+<div class="single contact">
+    <div class="container">
+        <div class="single-main">
+            <div class="col-md-12 single-main-left">
+                <div class="sngl-top" >
+                    <div class="col-md-5 single-top-left">
+                        <div class="thumb-image"> <img src="<%= locals.album.imagealbum%>" data-imagezoom="true" class="img-responsive detail-img" alt=""/> </div>
+
+                    </div>
+                    <div class="col-md-7 single-top-right">
+                        <div class="single-para simpleCart_shelfItem">
+                            <h1><strong><%= locals.album.nomalbum%></strong></h1>
+                            <h4>par <strong><%= locals.album.nomartiste%></strong></h4>
+                            <div class="star-on">
+                                <div class="clearfix"> </div>
+                            </div>
+
+                            <h5 class="item_price"><%= locals.album.prixalbum%> €</h5>
+                            <p><%= locals.album.descriptionalbum%></p>
+                            <div class="available">
+                                <ul>
+                                    <li><strong>Genre : </strong><%= locals.album.genrealbum%></li>
+                                    <li><strong>Année : </strong><%= locals.album.anneealbum%></li>
+                                </ul>
+                            </div>
+
+
+                            <% if(locals.isadmin) { %>
+                               <a href="index.php?controller=album&idAlbum=$idAlbum&action=delete"  class=" detail-btn-admin col-md-4 add-cart item_add">SUPPRIMER</a>";
+
+                                <a href="index.php?controller=album&idAlbum=$idAlbum&action=update" class=" detail-btn-admin col-md-4 add-cart item_add">MODIFIER</a>";
+                             <% }; %>
+
+                            <a href="index.php?action=ajouterArticle&controller=panier&idAlbum=$idAlbum"  class=" detail-btn-admin col-md-4 add-cart item_add">AJOUTER AU PANIER</a>
+
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+
+                   <!--
+                <div class="latestproducts">
+                    <ul class="menu_drop">
+                        <li class="item1"><a>Du même artiste</a></li>
+                    </ul>
+                    <div class="col-md-12 prdt-left">
+                        <div class="product-one">
+
+                            <div class="col-sm-3 product-left p-left" onClick>
+                                <div class="product-main simpleCart_shelfItem list-albumbox">
+                                    <a href="index.php?action=read&controller=album&idAlbum=$idAlbum" class="mask list-albumbox-img"><img class="img-responsive" src="$imageAlbum" alt="" /></a>
+                                    <div class="product-bottom">
+                                        <div class="list-title list-albumbox-title">
+                                            <h3>$nomAlbum</h3>
+                                        </div>
+                                        <p>$nomArtiste</p>
+                                        <h4><a class="item_add" href="#"><i></i></a> <span class=" item_price">$prixAlbum €</span></h4>
+
+                                        EOT;
+                                        if ($discount != 0) {
+                                        echo <<<EOT
+                                        <h4><span class=" item_price list-albumbox-discount">$discount% de réduction !</span></h4>
+                                        EOT;
+                                        } else {
+                                        echo <<<EOT
+                                        <div class="detail-albumbox-nodiscount"></div>
+
+                                        EOT;
+                                        }
+                                        echo '</div>';
+
+
+                                    if ($estNouveau) {
+                                    echo '<div class="srch srch1">';
+                                        echo '<span>Nouveau !</span>';
+                                        echo '</div>';
+                                    }
+
+
+                                    echo <<<EOT
+                                </div>
+                            </div>
+                            EOT;
+                            }
+                            }
+                            echo <<<EOT
+                            <div class="clearfix"></div>
+                            <div class="tabs">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                -->
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end-single-->
+
+
+
+
+
+
+
+

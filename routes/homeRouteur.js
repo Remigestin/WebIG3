@@ -40,9 +40,8 @@ module.exports.controller = function (app, authService, pg, url) {
                     },
 
                     fail: function () {
-                        console.log('check non');
                         res.status(200);
-                        res.render('pages/index', {title: 'Zicotech', locals:{authenticated: false, albums: albums.rows}});
+                        res.render('pages/index', {locals: {title: 'Zicotech', authenticated: false, albums: albums.rows}});
                     }
                 });
             },

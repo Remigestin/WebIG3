@@ -43,6 +43,7 @@ app.set('view engine', 'ejs');
 var authService = require('./routes/authService')(randomSecretKey, bcrypt, jwt);
 require('./routes/homeRouteur').controller(app, authService, pg, url);
 require('./routes/userRouteur').controller(app, authService, pg, url);
+require('./routes/albumRouteur').controller(app, authService, pg, url);
 
 // catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

@@ -6,10 +6,10 @@ module.exports = function(randomSecretKey, bcrypt, jwt){
 
   //callback succeed if authenticate succeed, otherwise callback fail
   module.authenticate = function (req, callback) {
-      console.log(randomSecretKey);
+
     var token = req.cookies['Zicotech'];
     if (token){
-    console.log(token);
+
       jwt.verify(token, randomSecretKey, function (err, decoded) {
         if(err){
           callback.fail("WRONG_TOKEN_AUTH");
