@@ -26,10 +26,12 @@ module.exports.controller = function (app, authService, pg, url) {
                         userDAO.getById(idUser, {
                             success: function (user) {
                                 res.status(200);
+                                console.log(user.isadmin);
                                 res.render('pages/album/detailAlbum', {
                                     locals: {
                                         title: album.nomalbum,
                                         authenticated: true,
+                                        isadmin: user.isadmin,
                                         pseudo: user.login,
                                         album: album
                                     }

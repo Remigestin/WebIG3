@@ -12,7 +12,7 @@ module.exports = function(pg, url) {
         pool.connect( function(err, client, done) {
             const query = {
                 name: 'getUserById',
-                text: 'SELECT * FROM public.album ORDER BY album.nomalbum'
+                text: 'SELECT * FROM public.album'
             };
 
             pool.query(query, (err, res) => {
