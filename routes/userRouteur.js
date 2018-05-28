@@ -19,19 +19,28 @@ module.exports.controller = function (app, authService, pg, url) {
 
     app.post('/user/signup', function (req, res) {
         console.log("adduser");
-        var user = new User(null, req.body.login, authService.hashPassword(req.body.password), req.body.email, false, null);
-        userDAO.create(user, {
-            success: function (savedUser) {
-                var token = authService().createToken(savedUser.iduser);
-                res.cookie('Zicotech', token, {expires: new Date(Date.now() + 900000), httpOnly: true});
-                res.status(200);
-                res.redirect('/');
+        userDAO.getByPseudo(req.body.login, {
+            success: function(user) {
+                res.render('pages/user/signup', {locals:{title: 'Inscription', alreadyExist: true}});
             },
 
-            fail: function (errors) {
-                res.status(500);
+            fail: function() {
+                var user = new User(null, req.body.login, authService.hashPassword(req.body.password), req.body.email, false, null);
+                userDAO.create(user, {
+                    success: function (savedUser) {
+                        var token = authService.createToken(savedUser.iduser);
+                        res.cookie('Zicotech', token, {expires: new Date(Date.now() + 900000), httpOnly: true});
+                        res.status(200);
+                        res.redirect('/');
+                    },
+
+                    fail: function (errors) {
+                        res.status(500);
+                    }
+                });
             }
         });
+
     });
 
 //connexion

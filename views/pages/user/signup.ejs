@@ -6,29 +6,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <% layout('../layout') %>
 <% include ../../partials/head.ejs %>
-<!--bottom-header-->
-<div class="header-bottom">
-    <div class="container">
-        <div class="header">
-            <div class="col-md-9 header-left">
-                <div class="top-nav">
-                    <ul class="memenu skyblue">
-                        <li class="grid"><a href="/">Home</a></li>
-                        <li class="active"><a href="/user/signin">Se Connecter</a>
 
-                        </li>
-
-                    </ul>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-
-            <div class="clearfix"></div>
-        </div>
-    </div>
-</div>
-<!--bottom-header-->
 <!--register-starts-->
+<% if(locals.alreadyExist) { %>
+<div class="alert alert-danger col-lg-4 col-lg-offset-2">
+    Ce Pseudo est déjà pris ! Veuillez en choisir un autre.
+</div>
+<% };%>
 <div class="register">
     <div class="container">
         <div class="register-top heading">
