@@ -16,7 +16,7 @@ module.exports = function(pg, url) {
             };
 
             pool.query(query, (err, res) => {
-
+                done();
                 if (err) {
                     console.log(err);
                     callback.fail(err);

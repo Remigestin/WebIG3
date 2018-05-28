@@ -1,11 +1,9 @@
-module.exports.controller = function (app, authService) {
+module.exports.controller = function (app, authService, pg, url) {
 
 
 
 
-//BD
-    var pg = require('pg');
-    var url = process.env.DATABASE_URL;
+
 
 
 //DTO et DAO
