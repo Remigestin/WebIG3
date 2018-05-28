@@ -42,17 +42,16 @@ module.exports = function(pg, url) {
 
                 if (err) {
                     console.log(err);
-                    console.log("nop++");
                     callback.fail(err);
 
                 } else if (res.rowCount == 0){
-                    console.log("nop");
+
                     callback.fail(null);
 
                 }
                 else {
-                    console.log("ok");
-                    var album = new Album(res.rows[0].idalbum, res.rows[0].nomalbum, res.rows[0].nomartiste, res.rows[0].prixalbum, res.rows[0].discountalbum, res.rows[0].imagealbum, res.rows[0].descriptionalbum);
+
+                    var album = new Album(res.rows[0].idalbum, res.rows[0].nomalbum, res.rows[0].nomartiste, res.rows[0].prixalbum, res.rows[0].imagealbum, res.rows[0].descriptionalbum, res.rows[0].anneealbum, res.rows[0].genrealbum);
                     callback.success(album);
                 }
             })
