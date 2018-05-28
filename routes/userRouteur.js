@@ -62,10 +62,13 @@ module.exports.controller = function (app, authService, pg, url) {
 
                 } else {
                     res.status(401);
+                    res.render('pages/user/signin', {locals:{title: 'Connexion', wrongPassword: true}});
                 }
             },
             fail: function (errors) {
-                res.status(500);
+                res.status(401);
+                res.render('pages/user/signin', {locals:{title: 'Connexion', wrongPseudo: true}});
+
             }
         });
     });

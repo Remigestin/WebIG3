@@ -9,6 +9,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
 <!--account-starts-->
+<% if(locals.wrongPassword) { %>
+<div class="alert alert-danger col-lg-4 col-lg-offset-2">
+    Mauvais mot de passe !
+</div>
+<% };%>
+<% if(locals.wrongPseudo) { %>
+<div class="alert alert-danger col-lg-4 col-lg-offset-2">
+    Utilisateur inexistant !
+</div>
+<% };%>
 <div class="account">
     <div class="container">
         <div class="account-top heading">
