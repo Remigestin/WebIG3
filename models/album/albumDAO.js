@@ -58,6 +58,36 @@ module.exports = function(pg, url) {
         });
     }
 
+    module.getBySearch = function(search, callback) {
+        pool.connect( function(err, client, done) {
+            const query = {
+                name: "getAlbumBySearch",
+                text: "SELECT * FROM public.album WHERE nomalbum LIKE $1 OR nomartiste LIKE $1 ",
+                values: [search]
+            };
+
+
+            pool.query(query, (err, res) => {
+                done();
+
+                if (err) {
+                    console.log(err);
+                    callback.fail(err);
+
+                } else if (res.rowCount == 0){
+
+                    callback.fail(null);
+
+                }
+                else {
+
+
+                    callback.success(res);
+                }
+            })
+        });
+    }
+
     return module;
 
 }

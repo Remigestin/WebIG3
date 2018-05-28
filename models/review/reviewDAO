@@ -1,0 +1,39 @@
+module.exports = function(pg, url) {
+
+    var module = {};
+    var Review = require('./review');
+
+    const pool = new pg.Pool({
+        connectionString: url,
+        ssl:true
+    })
+
+    module.create = function(review, callback) {
+        pool.connect( function(err, client, done) {
+            const query = {
+                name: 'create-review',
+                text: 'INSERT INTO public.review (commentaire, note, iduser, idalbum) VALUES ($1, $2, $3, $4) RETURNING *',
+                values: [review.commentaire, review.note, review.iduser, review.idalbum]
+            };
+
+
+            pool.query(query, (err, res) => {
+                done();
+                if (err) {
+                    console.log(err);
+                    callback.fail(err);
+                } else if (res.rowCount == 0){
+                    callback.fail(null);
+                }
+                else {
+                    review.idreview = res.rows[0].idreview;
+                    callback.success(review);
+                }
+            })
+        });
+    }
+
+
+    return module;
+
+}
