@@ -20,6 +20,8 @@ module.exports = function (pg, url) {
 
             pool.query(query, (err, res) => {
                 done();
+                client.end().then(()=>console.log('disconnected'))
+                    .catch();
                 if (err) {
                     console.log(err);
                     callback.fail(err);
@@ -45,6 +47,8 @@ module.exports = function (pg, url) {
 
             pool.query(query, (err, res) => {
                 done();
+                client.end().then(()=>console.log('disconnected'))
+                    .catch();
 
                 if (err) {
                     console.log(err);
@@ -71,6 +75,8 @@ module.exports = function (pg, url) {
 
             pool.query(query, (err, res) => {
                 done();
+                client.end().then(()=>console.log('disconnected'))
+                    .catch();
                 if (err) {
                     console.log(err);
                     callback.fail(err);
@@ -84,6 +90,7 @@ module.exports = function (pg, url) {
             })
         });
     }
+
     return module;
 
 }

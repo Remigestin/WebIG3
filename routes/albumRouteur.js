@@ -14,7 +14,7 @@ module.exports.controller = function (app, authService, pg, url) {
 
 //afficher detail
 
-    app.get('/album/:id', function (req, res) {
+    app.get('/album/detail/:id', function (req, res) {
         console.log("detailAlbum");
 
         albumDAO.getById(req.params.id, {
@@ -124,7 +124,7 @@ module.exports.controller = function (app, authService, pg, url) {
                                 fail: function (err) {
                                     console.log('delete tag fail');
                                     res.status(500);
-                                    res.render('pages/error', {locals: {error: err, title: error, authenticated: true, isadmin: user.isadmin}});
+                                    res.render('pages/error/error', {locals: {error: err, title: error, authenticated: true, isadmin: user.isadmin}});
                                 }
                             });
                         } else {
@@ -136,17 +136,46 @@ module.exports.controller = function (app, authService, pg, url) {
                     fail: function (err) {
                         console.log('getbyid  fail');
                         res.status(500);
-                        res.render('pages/error', {locals: {error: err, title: error}});
+                        res.render('pages/error/error', {locals: {error: err, title: error}});
                     }
                 })
             },
             fail: function (error) {
-                console.log('deconnecté')
-                console.log('non connecté');
+                console.log('deconnecté');
                 res.status(403);
                 res.render('pages/403', {locals: {title: 'error 403'}});
             }
         })
+    });
+
+    app.get('/album/add', function (req, res) {
+        authService.authenticate(req, {
+            success: function(idUser) {
+                userDAO.getById(idUser, {
+                    success: function(user) {
+                        if(user.isadmin) {
+                            console.log("______________ADMIN__________");
+                            res.status(200);
+                            res.render('pages/album/ajoutAlbum', {locals: {title: "Ajout Album", authenticated: true, isadmin: user.isadmin}});
+                        }
+                        else {
+
+                            res.status(500);
+                            res.render('pages/error/error');
+                        }
+                    },
+                    fail: function(err) {
+                        res.status(500);
+                        res.render('pages/error/error');
+                    }
+                });
+            },
+            fail: function(err) {
+                console.log('non connecté');
+                res.status(403);
+                res.render('pages/403', {locals: {title: 'error 403'}});
+            }
+        });
     });
 
 
