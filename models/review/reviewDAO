@@ -33,6 +33,30 @@ module.exports = function(pg, url) {
         });
     }
 
+    module.getByAlbum = function(idalbum, callback) {
+
+        pool.connect( function(err, client, done) {
+            const query = {
+                name: 'getReviewByAlbum',
+                text: 'SELECT * FROM public.review R, public.user U WHERE R.iduser = U.iduser AND idalbum = $1 ',
+                values: [idalbum]
+            };
+
+
+            pool.query(query, (err, res) => {
+                done();
+
+                if (err) {
+                    console.log(err);
+                    callback.fail(err);
+                }
+                else {
+                    callback.success(res);
+                }
+            })
+        });
+    }
+
 
     return module;
 

@@ -58,6 +58,30 @@ module.exports = function(pg, url) {
         });
     }
 
+    module.delete = function(id, callback) {
+        pool.connect( function(err, client, done) {
+            const query = {
+                name: 'deleteAlbum',
+                text: 'DELETE FROM public.album WHERE idalbum = $1 ',
+                values: [id]
+            };
+
+
+            pool.query(query, (err, res) => {
+                done();
+
+                if (err) {
+                    console.log(err);
+                    callback.fail(err);
+
+                }
+                else {
+                    callback.success();
+                }
+            })
+        });
+    }
+
     module.getBySearch = function(search, callback) {
         pool.connect( function(err, client, done) {
             const query = {
@@ -80,8 +104,6 @@ module.exports = function(pg, url) {
 
                 }
                 else {
-
-
                     callback.success(res);
                 }
             })

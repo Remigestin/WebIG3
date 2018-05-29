@@ -1,42 +1,41 @@
-module.exports = function(pg, url) {
+module.exports = function (pg, url) {
 
-  var module = {};
-  var User = require('./user');
+    var module = {};
+    var User = require('./user');
 
- const pool = new pg.Pool({
-   connectionString: url,
-   ssl:true
- })
-
-
-
-  module.create = function(user, callback) {
-    pool.connect( function(err, client, done) {
-      const query = {
-        name: 'create-user',
-        text: 'INSERT INTO public.user (login, password, email, isadmin) VALUES ($1, $2, $3, $4) RETURNING *',
-        values: [user.login, user.password, user.email, false]
-      };
+    const pool = new pg.Pool({
+        connectionString: url,
+        ssl: true
+    })
 
 
-      pool.query(query, (err, res) => {
-        done();
-        if (err) {
-          console.log(err);
-          callback.fail(err);
-        } else if (res.rowCount == 0){
-          callback.fail(null);
-        }
-        else {
-          user.iduser = res.rows[0].iduser;
-          callback.success(user);
-        }
-      })
-    });
-  }
+    module.create = function (user, callback) {
+        pool.connect(function (err, client, done) {
+            const query = {
+                name: 'create-user',
+                text: 'INSERT INTO public.user (login, password, email, isadmin) VALUES ($1, $2, $3, $4) RETURNING *',
+                values: [user.login, user.password, user.email, false]
+            };
 
-    module.getById = function(id, callback) {
-        pool.connect( function(err, client, done) {
+
+            pool.query(query, (err, res) => {
+                done();
+                if (err) {
+                    console.log(err);
+                    callback.fail(err);
+                } else if (res.rowCount == 0) {
+                    callback.fail(null);
+                }
+                else {
+                    user.iduser = res.rows[0].iduser;
+                    callback.success(user);
+                }
+            })
+        });
+    }
+
+    module.getById = function (id, callback) {
+        pool.connect(function (err, client, done) {
             const query = {
                 name: 'getUserById',
                 text: 'SELECT * FROM public.user WHERE iduser = $1 ',
@@ -50,7 +49,7 @@ module.exports = function(pg, url) {
                 if (err) {
                     console.log(err);
                     callback.fail(err);
-                } else if (res.rowCount == 0){
+                } else if (res.rowCount == 0) {
                     callback.fail(null);
                 }
                 else {
@@ -61,8 +60,8 @@ module.exports = function(pg, url) {
         });
     }
 
-    module.getByPseudo = function(id, callback) {
-        pool.connect( function(err, client, done) {
+    module.getByPseudo = function (id, callback) {
+        pool.connect(function (err, client, done) {
             const query = {
                 name: 'getUserById',
                 text: 'SELECT * FROM public.user WHERE login = $1 ',
@@ -75,7 +74,7 @@ module.exports = function(pg, url) {
                 if (err) {
                     console.log(err);
                     callback.fail(err);
-                } else if (res.rowCount == 0){
+                } else if (res.rowCount == 0) {
                     callback.fail(null);
                 }
                 else {
@@ -85,7 +84,6 @@ module.exports = function(pg, url) {
             })
         });
     }
-
-  return module;
+    return module;
 
 }
