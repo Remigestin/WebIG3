@@ -1,10 +1,10 @@
-module.exports.controller = function (app, authService, pg, url) {
+module.exports.controller = function (app, authService, pool) {
 
 
 //DTO et DAO
 
-    var userDAO = require('../models/user/userDAO')(pg, url);
-    var albumDAO = require('../models/album/albumDAO')(pg, url);
+    var userDAO = require('../models/user/userDAO')(pool);
+    var albumDAO = require('../models/album/albumDAO')(pool);
 
 //accueil
     app.get('/', function (req, res) {

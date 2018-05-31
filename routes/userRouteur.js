@@ -1,4 +1,4 @@
-module.exports.controller = function (app, authService, pg, url) {
+module.exports.controller = function (app, authService, pool) {
 
 
 
@@ -8,7 +8,7 @@ module.exports.controller = function (app, authService, pg, url) {
 
 //DTO et DAO
     var User = require('../models/user/user');
-    var userDAO = require('../models/user/userDAO')(pg, url);
+    var userDAO = require('../models/user/userDAO')(pool);
 
 
 //inscription
@@ -51,6 +51,7 @@ module.exports.controller = function (app, authService, pg, url) {
     app.post('/user/signin', function (req, res) {
 
         userDAO.getByPseudo(req.body.pseudo, {
+
             success: function (user) {
                 if (authService.checkPassword(req.body.password, user.password)) {
                     var token = authService.createToken(user.iduser);

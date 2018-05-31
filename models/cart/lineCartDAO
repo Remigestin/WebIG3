@@ -1,0 +1,57 @@
+module.exports = function(pool) {
+
+    var module = {};
+
+
+
+
+    module.addProduct = function(idUser, idAlbum, callback) {
+        pool.connect( function(err, client, done) {
+            const query = {
+                name: 'create-linecart',
+                text: 'INSERT INTO public.linecart (iduser, idalbum) VALUES ($1, $2)',
+                values: [idUser, idAlbum]
+            };
+
+
+            client.query(query, (err, res) => {
+                done();
+
+                if (err) {
+                    console.log(err);
+                    callback.fail(err);
+                }
+                else {
+                    callback.success();
+                }
+            })
+        });
+    };
+
+    module.deleteProduct = function(idLineCart, callback) {
+        pool.connect( function(err, client, done) {
+            const query = {
+                name: 'deleteAlbum',
+                text: 'DELETE FROM public.linecart WHERE idlinecart = $1 ',
+                values: [idLineCart]
+            };
+
+
+            client.query(query, (err, res) => {
+                done();
+
+                if (err) {
+                    console.log(err);
+                    callback.fail(err);
+                }
+                else {
+                    callback.success();
+                }
+            })
+        });
+    };
+
+
+    return module;
+
+}

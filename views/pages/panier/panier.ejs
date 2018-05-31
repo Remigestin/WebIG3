@@ -1,0 +1,60 @@
+
+
+<div class="ckeckout">
+    <div class="container">
+        <div class="ckeck-top heading">
+            <h2>PANIER PIANO</h2>
+        </div>
+        <div class="ckeckout-top">
+            <div class="cart-items">
+
+                <div class="in-check" >
+                    <ul class="unit panier-fix-head">
+                        <li><span>Nom Album</span></li>
+                        <li><span>Quantité</span></li>
+                        <li><span>Prix unitaire</span></li>
+                        <li><span>Ajouter ou supprimer</span></li>
+                    </ul>
+                    <strong><ul class="cart-header">
+                            <?php
+$nbArticles = count($_SESSION['panierZik']['libelleProduit']);
+if ($nbArticles <= 0)
+    echo "Votre panier est vide";
+else {
+
+	echo "<div >";
+                            for ($i = 0; $i < $nbArticles; $i++) {
+
+
+                            $a = unserialize($_SESSION['panierZik']['libelleProduit'][$i]);
+
+
+
+                            echo "<li class='panier-description'> " . $a->get('nomAlbum') . "</li>";
+                            echo "<li class='panier-description'> " . $_SESSION['panierZik']['qteProduit'][$i]  . "</li>";
+                            echo "<li class='panier-description'> " . $a->get('prixAlbum')  . "</li>";
+                            echo "<li class='panier-description'> <a  class='btn btn-info' href = \"index.php?action=addOneArticle&controller=panier&idAlbum=" . $a->get("idAlbum") . "\"> + </a>";
+                                echo "     <a class='btn btn-info' href = \"index.php?action=deleteOneArticle&controller=panier&idAlbum=" . $a->get("idAlbum") . "\"> - </a> ";
+                                echo "     <a class='btn btn-danger' href = \"index.php?action=supprimerArticle&controller=panier&idAlbum=" . $a->get("idAlbum") . "\"> Supprimer tout</a></li>";
+
+
+                            }
+                            echo "</div>";
+                echo "<h4><strong>Total : ". $_SESSION['prixPanierZik'] . "€</strong></h4>";
+                echo "<br>";
+                echo "<form method=\"POST\" action=\"index.php?action=choice&controller=coordonnee\">";
+                    echo "<input class='btn btn-success' type=\"submit\" value=\"Valider la commande\"/>";
+                    echo "</form>";
+
+
+                }
+                ?>
+
+                </ul></strong>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+

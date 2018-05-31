@@ -1,12 +1,7 @@
-module.exports = function (pg, url) {
+module.exports = function (pool) {
 
     var module = {};
     var User = require('./user');
-
-    const pool = new pg.Pool({
-        connectionString: url,
-        ssl: true
-    })
 
 
     module.create = function (user, callback) {
@@ -18,10 +13,9 @@ module.exports = function (pg, url) {
             };
 
 
-            pool.query(query, (err, res) => {
+            client.query(query, (err, res) => {
                 done();
-                client.end().then(()=>console.log('disconnected'))
-                    .catch();
+
                 if (err) {
                     console.log(err);
                     callback.fail(err);
@@ -45,10 +39,8 @@ module.exports = function (pg, url) {
             };
 
 
-            pool.query(query, (err, res) => {
+            client.query(query, (err, res) => {
                 done();
-                client.end().then(()=>console.log('disconnected'))
-                    .catch();
 
                 if (err) {
                     console.log(err);
@@ -67,16 +59,15 @@ module.exports = function (pg, url) {
     module.getByPseudo = function (id, callback) {
         pool.connect(function (err, client, done) {
             const query = {
-                name: 'getUserById',
+                name: 'getUserByPseudo',
                 text: 'SELECT * FROM public.user WHERE login = $1 ',
                 values: [id]
             };
 
 
-            pool.query(query, (err, res) => {
+            client.query(query, (err, res) => {
                 done();
-                client.end().then(()=>console.log('disconnected'))
-                    .catch();
+
                 if (err) {
                     console.log(err);
                     callback.fail(err);

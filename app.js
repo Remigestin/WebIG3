@@ -19,6 +19,10 @@ const randomSecretKey = uuidv4();
 var pg = require('pg');
 var url = process.env.DATABASE_URL;
 
+const pool = new pg.Pool({
+    connectionString: url,
+    ssl:true
+})
 
 var app = express();
 app.use(bodyParser.json());
@@ -41,9 +45,10 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 var authService = require('./routes/authService')(randomSecretKey, bcrypt, jwt);
-require('./routes/homeRouteur').controller(app, authService, pg, url);
-require('./routes/userRouteur').controller(app, authService, pg, url);
-require('./routes/albumRouteur').controller(app, authService, pg, url);
+require('./routes/homeRouteur').controller(app, authService, pool);
+require('./routes/userRouteur').controller(app, authService, pool);
+require('./routes/albumRouteur').controller(app, authService, pool);
+require('./routes/cartRouteur').controller(app, authService, pool);
 
 // catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

@@ -1,16 +1,16 @@
-module.exports.controller = function (app, authService, pg, url) {
+module.exports.controller = function (app, authService, pool) {
 
     const escape = require("html-escape");
 
 //DTO et DAO
     var Album = require('../models/album/album');
-    var albumDAO = require('../models/album/albumDAO')(pg, url);
+    var albumDAO = require('../models/album/albumDAO')(pool);
 
     var User = require('../models/user/user');
-    var userDAO = require('../models/user/userDAO')(pg, url);
+    var userDAO = require('../models/user/userDAO')(pool);
 
     var Review = require('../models/review/review');
-    var reviewDAO = require('../models/review/reviewDAO')(pg, url);
+    var reviewDAO = require('../models/review/reviewDAO')(pool);
 
 
 //afficher detail

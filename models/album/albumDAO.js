@@ -1,12 +1,9 @@
-module.exports = function(pg, url) {
+module.exports = function(pool) {
 
     var module = {};
     var Album = require('./album');
 
-    const pool = new pg.Pool({
-        connectionString: url,
-        ssl:true
-    })
+
 
     module.create = function (album, callback) {
         pool.connect(function (err, client, done) {
@@ -17,10 +14,9 @@ module.exports = function(pg, url) {
             };
 
 
-            pool.query(query, (err, res) => {
+            client.query(query, (err, res) => {
                 done();
-                client.end().then(()=>console.log('disconnected'))
-                    .catch();
+
                 if (err) {
                     console.log(err);
                     callback.fail(err);
@@ -38,14 +34,13 @@ module.exports = function(pg, url) {
     module.getAll = function(callback) {
         pool.connect( function(err, client, done) {
             const query = {
-                name: 'getUserById',
+                name: 'getAllAlbum',
                 text: 'SELECT * FROM public.album'
             };
 
-            pool.query(query, (err, res) => {
+            client.query(query, (err, res) => {
                 done();
-                client.end().then(()=>console.log('disconnected'))
-                    .catch();
+
                 if (err) {
                     console.log(err);
                     callback.fail(err);
@@ -66,10 +61,9 @@ module.exports = function(pg, url) {
             };
 
 
-            pool.query(query, (err, res) => {
+            client.query(query, (err, res) => {
                 done();
-                client.end().then(()=>console.log('disconnected'))
-                    .catch();
+
 
                 if (err) {
                     console.log(err);
@@ -98,10 +92,8 @@ module.exports = function(pg, url) {
             };
 
 
-            pool.query(query, (err, res) => {
+            client.query(query, (err, res) => {
                 done();
-                client.end().then(()=>console.log('disconnected'))
-                    .catch();
 
                 if (err) {
                     console.log(err);
@@ -124,11 +116,8 @@ module.exports = function(pg, url) {
             };
 
 
-            pool.query(query, (err, res) => {
+            client.query(query, (err, res) => {
                 done();
-                client.end().then(()=>console.log('disconnected'))
-                    .catch();
-
 
                 if (err) {
                     console.log(err);
@@ -155,11 +144,8 @@ module.exports = function(pg, url) {
             };
 
 
-            pool.query(query, (err, res) => {
+            client.query(query, (err, res) => {
                 done();
-                client.end().then(()=>console.log('disconnected'))
-                    .catch();
-
 
                 if (err) {
                     console.log(err);
