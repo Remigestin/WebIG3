@@ -1,5 +1,15 @@
-<% layout('../layout')%>
+<% layout('../layout') -%>
+<% if(!locals.authenticated) {%>
 <% include ../../partials/head.ejs %>
+<%};%>
+
+<% if(locals.authenticated && !locals.isadmin) {%>
+<% include ../../partials/headConnect.ejs %>
+<%};%>
+
+<% if (locals.authenticated && locals.isadmin) {%>
+<% include ../../partials/headAdmin.ejs %>
+<%};%>
 <main class="container">
     <h1>Erreur</h1>
     <% if (error != null) { %>

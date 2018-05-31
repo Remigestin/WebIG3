@@ -1,10 +1,14 @@
-<% layout('../layout') %>
+<% layout('../layout') -%>
 <% if(!locals.authenticated) {%>
 <% include ../../partials/head.ejs %>
 <%};%>
 
-<% if (locals.authenticated) {%>
-<% include ../../partials/headConnect%>
+<% if(locals.authenticated && !locals.isadmin) {%>
+<% include ../../partials/headConnect.ejs %>
+<%};%>
+
+<% if (locals.authenticated && locals.isadmin) {%>
+<% include ../../partials/headAdmin.ejs %>
 <%};%>
 
 <div class="col-lg-offset-2">
