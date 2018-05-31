@@ -3,11 +3,13 @@
     <% include ../partials/head.ejs %>
 <%};%>
 
-<% if (locals.authenticated) {%>
-    <% include ../partials/headConnect%>
+<% if(locals.authenticated && !locals.isadmin) {%>
+    <% include ../partials/headConnect.ejs %>
 <%};%>
 
-
+<% if (locals.authenticated && locals.isadmin) {%>
+    <% include ../partials/headAdmin.ejs %>
+<%};%>
 
 <!--product-starts-->
 <div class="product">

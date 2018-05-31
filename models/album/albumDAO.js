@@ -8,6 +8,33 @@ module.exports = function(pg, url) {
         ssl:true
     })
 
+    module.create = function (album, callback) {
+        pool.connect(function (err, client, done) {
+            const query = {
+                name: 'create-album',
+                text: 'INSERT INTO public.album (nomalbum, nomartiste, prixalbum, imagealbum, descriptionalbum, anneealbum, genrealbum) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+                values: [album.nomalbum, album.nomartiste, album.prixalbum, album.imagealbum, album.descriptionalbum, album.anneealbum, album.genrealbum]
+            };
+
+
+            pool.query(query, (err, res) => {
+                done();
+                client.end().then(()=>console.log('disconnected'))
+                    .catch();
+                if (err) {
+                    console.log(err);
+                    callback.fail(err);
+                } else if (res.rowCount == 0) {
+                    callback.fail(null);
+                }
+                else {
+                    album.idalbum = res.rows[0].idalbum;
+                    callback.success(album);
+                }
+            })
+        });
+    }
+
     module.getAll = function(callback) {
         pool.connect( function(err, client, done) {
             const query = {

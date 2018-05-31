@@ -1,4 +1,4 @@
-<% layout('../layout') -%>
+<% layout('../layout') %>
 <% if(!locals.authenticated) {%>
 <% include ../../partials/head.ejs %>
 <%};%>
@@ -7,8 +7,8 @@
 <% include ../../partials/headConnect%>
 <%};%>
 
-
-<form method="post" action="index.php?controller=album&action=<?php echo $action?>" >
+<div class="col-lg-offset-2">
+<form method="post" action="/album/add">
     <fieldset>
         <legend>
             <h3>Création d'un album</h3>
@@ -16,36 +16,36 @@
 
         <div>
             <label for="nomAlbum_id">Nom :</label>
-            <input id="nomAlbum_id" name="nomAlbum" type="text" required>
+            <input id="nomAlbum_id" name="nomalbum" type="text" required>
         </div>
-        <div>
-            <label for="nomArtiste_id">Choisir un artiste</label>
-            <input id="nomAlbum_id" name="nomArtiste" type="text" required>
 
         <div>
+            <label for="nomArtiste_id">Choisir un artiste</label>
+            <input id="nomAlbum_id" name="nomartiste" type="text" required>
+
+        <div>
+
         <div>
             <label for="prixAlbum_id">Prix :</label>
-            <input id="prixAlbum_id" name="prixAlbum" type="number" required>
+            <input id="prixAlbum_id" name="prixalbum" type="number" required>
         </div>
+
         <div>
             <label for="genreAlbum_id">Genre :</label>
-            <input id="genreAlbum_id" name="genreAlbum" type="text" required>
+            <input id="genreAlbum_id" name="genrealbum" type="text" required>
         </div>
         <div>
             <label for="annee_id">Année :</label>
-            <input id="annee_id" name="annee" type="number"  required>
+            <input id="annee_id" name="anneealbum" type="number"  required>
         </div>
-        <div>
-            <label for="discount_id">Discount :</label>
-            <input id="discount_id" name="discount" type="number" max=100 min=0 required>
-        </div>
+
         <div>
             <label for="imageAlbum_id">URL image :</label>
-            <input id="imageAlbum_id" name="imageAlbum"   type="text" required>
+            <input id="imageAlbum_id" name="imagealbum"   type="text" required>
         </div>
         <div>
             <label for="descriptionAlbum_id">Description :</label>
-            <textarea id="descriptionAlbum_id" name="descriptionAlbum"></textarea>
+            <textarea id="descriptionAlbum_id" name="descriptionalbum"></textarea>
         </div>
 
         <div class="address submit">
@@ -53,3 +53,4 @@
         </div>
     </fieldset>
 </form>
+</div>

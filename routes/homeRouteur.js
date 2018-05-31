@@ -1,10 +1,6 @@
 module.exports.controller = function (app, authService, pg, url) {
 
 
-
-
-
-
 //DTO et DAO
 
     var userDAO = require('../models/user/userDAO')(pg, url);

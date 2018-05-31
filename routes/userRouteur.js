@@ -49,9 +49,7 @@ module.exports.controller = function (app, authService, pg, url) {
     });
 
     app.post('/user/signin', function (req, res) {
-        console.log("signin");
 
-        var user = new User(null, req.body.login, authService.hashPassword(req.body.password), req.body.email, false, null);
         userDAO.getByPseudo(req.body.pseudo, {
             success: function (user) {
                 if (authService.checkPassword(req.body.password, user.password)) {
