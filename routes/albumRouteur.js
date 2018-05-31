@@ -1,6 +1,6 @@
 module.exports.controller = function (app, authService, pg, url) {
 
-        const escape = require("html-escape");
+    const escape = require("html-escape");
 
 //DTO et DAO
     var Album = require('../models/album/album');
@@ -125,7 +125,14 @@ module.exports.controller = function (app, authService, pg, url) {
                                 fail: function (err) {
                                     console.log('delete tag fail');
                                     res.status(500);
-                                    res.render('pages/error/error', {locals: {error: err, title: error, authenticated: true, isadmin: user.isadmin}});
+                                    res.render('pages/error/error', {
+                                        locals: {
+                                            error: err,
+                                            title: error,
+                                            authenticated: true,
+                                            isadmin: user.isadmin
+                                        }
+                                    });
                                 }
                             });
                         } else {
@@ -151,12 +158,18 @@ module.exports.controller = function (app, authService, pg, url) {
 
     app.get('/album/add', function (req, res) {
         authService.authenticate(req, {
-            success: function(idUser) {
+            success: function (idUser) {
                 userDAO.getById(idUser, {
-                    success: function(user) {
-                        if(user.isadmin) {
+                    success: function (user) {
+                        if (user.isadmin) {
                             res.status(200);
-                            res.render('pages/album/ajoutAlbum', {locals: {title: "Ajout Album", authenticated: true, isadmin: user.isadmin}});
+                            res.render('pages/album/ajoutAlbum', {
+                                locals: {
+                                    title: "Ajout Album",
+                                    authenticated: true,
+                                    isadmin: user.isadmin
+                                }
+                            });
                         }
                         else {
 
@@ -164,13 +177,13 @@ module.exports.controller = function (app, authService, pg, url) {
                             res.render('pages/error/error');
                         }
                     },
-                    fail: function(err) {
+                    fail: function (err) {
                         res.status(500);
                         res.render('pages/error/error');
                     }
                 });
             },
-            fail: function(err) {
+            fail: function (err) {
                 console.log('non connecté');
                 res.status(403);
                 res.render('pages/403', {locals: {title: 'error 403'}});
@@ -182,15 +195,15 @@ module.exports.controller = function (app, authService, pg, url) {
         authService.authenticate(req, {
             success: function (idUser) {
                 userDAO.getById(idUser, {
-                    success: function(user) {
+                    success: function (user) {
                         if (user.isadmin) {
-                            var album = new Album(null, escape(req.body.nomalbum), escape(req.body.nomartiste), escape(req.body.prixalbum), escape(req.body.imagealbum), escape(req.body.descriptionalbum), escape(req.body.anneealbum),escape(req.body.genrealbum));
+                            var album = new Album(null, escape(req.body.nomalbum), escape(req.body.nomartiste), escape(req.body.prixalbum), escape(req.body.imagealbum), escape(req.body.descriptionalbum), escape(req.body.anneealbum), escape(req.body.genrealbum));
                             albumDAO.create(album, {
-                                success: function(savedAlbum) {
+                                success: function (savedAlbum) {
                                     res.status(200);
-                                    res.redirect('/album/detail/'+savedAlbum.idalbum);
+                                    res.redirect('/album/detail/' + savedAlbum.idalbum);
                                 },
-                                fail: function(err){
+                                fail: function (err) {
                                     res.status(500);
                                     res.render('pages/error/error');
                                 }
@@ -209,7 +222,91 @@ module.exports.controller = function (app, authService, pg, url) {
                 })
 
             },
-            fail: function(err) {
+            fail: function (err) {
+                console.log('non connecté');
+                res.status(403);
+                res.render('pages/403', {locals: {title: 'error 403'}});
+            }
+
+        });
+    });
+
+
+    app.get('/album/update/:id', function (req, res) {
+        authService.authenticate(req, {
+            success: function (idUser) {
+                userDAO.getById(idUser, {
+                    success: function (user) {
+                        if (user.isadmin) {
+                            albumDAO.getById(req.params.id, {
+                                success: function (album) {
+                                    res.status(200);
+                                    res.render('pages/album/modifAlbum', {
+                                        locals: {
+                                            title: "Modifier Album",
+                                            authenticated: true,
+                                            isadmin: user.isadmin,
+                                            album: album
+                                        }
+                                    });
+                                },
+                                fail: function (err) {
+                                    res.status(500);
+                                    res.render('pages/error/error');
+                                }
+                            });
+                        }
+                        else {
+                            res.status(403);
+                            res.render('pages/error/error');
+                        }
+                    },
+                    fail: function (err) {
+                        res.status(500);
+                        res.render('pages/error/error');
+                    }
+                });
+            },
+            fail: function (err) {
+                console.log('non connecté');
+                res.status(403);
+                res.render('pages/403', {locals: {title: 'error 403'}});
+            }
+        });
+    });
+
+    app.put('/album/update', function (req, res) {
+        authService.authenticate(req, {
+            success: function (idUser) {
+                userDAO.getById(idUser, {
+                    success: function (user) {
+                        if (user.isadmin) {
+                            var album = new Album(escape(req.body.idalbum), escape(req.body.nomalbum), escape(req.body.nomartiste), escape(req.body.prixalbum), escape(req.body.imagealbum), escape(req.body.descriptionalbum), escape(req.body.anneealbum), escape(req.body.genrealbum));
+                            albumDAO.update(album, {
+                                success: function () {
+                                    res.status(200);
+                                    res.redirect('/album/detail/' + album.idalbum);
+                                },
+                                fail: function (err) {
+                                    res.status(500);
+                                    res.render('pages/error/error');
+                                }
+                            })
+                        }
+                        else {
+                            res.status(500);
+                            res.render('pages/error/error');
+                        }
+
+                    },
+                    fail: function (err) {
+                        res.status(500);
+                        res.render('pages/error/error');
+                    }
+                })
+
+            },
+            fail: function (err) {
                 console.log('non connecté');
                 res.status(403);
                 res.render('pages/403', {locals: {title: 'error 403'}});

@@ -1,0 +1,88 @@
+<% layout('../layout') %>
+<% if(!locals.authenticated) {%>
+<% include ../../partials/head.ejs %>
+<%};%>
+
+<% if (locals.authenticated) {%>
+<% include ../../partials/headConnect%>
+<%};%>
+
+<div class="col-lg-offset-2">
+
+        <fieldset>
+            <legend>
+                <h3>Modification d'un album</h3>
+            </legend>
+
+            <div>
+                <label for="nomAlbum_id">Nom :</label>
+                <input id="nomAlbum_id" name="nomalbum" type="text" value="<%= locals.album.nomalbum%>" required>
+            </div>
+
+            <div>
+                <label for="nomArtiste_id">Choisir un artiste</label>
+                <input id="nomArtiste_id" name="nomartiste" type="text" value="<%= locals.album.nomartiste%>" required>
+
+                <div>
+
+                    <div>
+                        <label for="prixAlbum_id">Prix :</label>
+                        <input id="prixAlbum_id" name="prixalbum" type="number" value="<%= locals.album.prixalbum%>" required>
+                    </div>
+
+                    <div>
+                        <label for="genreAlbum_id">Genre :</label>
+                        <input id="genreAlbum_id" name="genrealbum" type="text" value="<%= locals.album.genrealbum%>" required>
+                    </div>
+                    <div>
+                        <label for="annee_id">Année :</label>
+                        <input id="annee_id" name="anneealbum" type="number" value="<%= locals.album.anneealbum%>" required>
+                    </div>
+
+                    <div>
+                        <label for="imageAlbum_id">URL image :</label>
+                        <input id="imageAlbum_id" name="imagealbum"  value="<%= locals.album.imagealbum%>" type="text" required>
+                    </div>
+                    <div>
+                        <label for="descriptionAlbum_id">Description :</label>
+                        <textarea id="descriptionAlbum_id" name="descriptionalbum" ><%= locals.album.descriptionalbum%></textarea>
+                    </div>
+
+                    <div class="address submit">
+                        <input type="submit" onclick="updateAlbum(<%= locals.album.idalbum %>)" value="Envoyer">
+                    </div>
+        </fieldset>
+</div>
+
+<script>
+
+    //updateAlbum
+    function updateAlbum(idalbum){
+        // Update a album
+
+        var url = "/album/update";
+        var data = {};
+        data.idalbum  = idalbum;
+        data.nomalbum = document.getElementById('nomAlbum_id').value;
+        data.nomartiste = document.getElementById('nomArtiste_id').value;
+        data.prixalbum = document.getElementById('prixAlbum_id').value;
+        data.genrealbum = document.getElementById('genreAlbum_id').value;
+        data.anneealbum = document.getElementById('annee_id').value;
+        data.imagealbum = document.getElementById('imageAlbum_id').value;
+        data.descriptionalbum = document.getElementById('descriptionAlbum_id').value;
+
+
+
+        var json = JSON.stringify(data);
+        var xhr = new XMLHttpRequest();
+        xhr.open("PUT", url, true);
+        xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+        xhr.onreadystatechange = function() { // listen for state changes
+            if (xhr.readyState == 4 && xhr.status == 200) { // when completed we can move away
+                console.log('redirect');
+                window.location.replace('/album/detail/'+idalbum);
+            }
+        }
+        xhr.send(json);
+    }
+</script>

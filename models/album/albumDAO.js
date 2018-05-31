@@ -146,6 +146,33 @@ module.exports = function(pg, url) {
         });
     }
 
+    module.update = function(album, callback) {
+        pool.connect( function(err, client, done) {
+            const query = {
+                name: "update",
+                text: "UPDATE public.album SET nomalbum = $1, nomartiste = $2, prixalbum = $3, imagealbum = $4, descriptionalbum = $5, anneealbum = $6, genrealbum = $7 WHERE idalbum = $8",
+                values: [album.nomalbum, album.nomartiste, album.prixalbum, album.imagealbum, album.descriptionalbum, album.anneealbum, album.genrealbum, album.idalbum]
+            };
+
+
+            pool.query(query, (err, res) => {
+                done();
+                client.end().then(()=>console.log('disconnected'))
+                    .catch();
+
+
+                if (err) {
+                    console.log(err);
+                    callback.fail(err);
+
+                }
+                else {
+                    callback.success();
+                }
+            })
+        });
+    }
+
     return module;
 
 }
