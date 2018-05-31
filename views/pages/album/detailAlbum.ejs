@@ -38,15 +38,14 @@
                                 </ul>
                             </div>
 
-
                             <% if(locals.isadmin) { %>
                                <a class=" detail-btn-admin col-md-4 add-cart item_add" href="#" onclick="deleteAlbum(<%= locals.album.idalbum %>)">SUPPRIMER</a>
 
                                 <a href="/album/update/<%= locals.album.idalbum %>" class=" detail-btn-admin col-md-4 add-cart item_add">MODIFIER</a>
                              <% }; %>
-
+                            <%if (locals.authenticated) {%>
                             <a href="/cart/add/<%= locals.album.idalbum %>"  class=" detail-btn-admin col-md-4 add-cart item_add">AJOUTER AU PANIER</a>
-
+                            <% }; %>
                         </div>
                     </div>
                     <div class="clearfix"> </div>

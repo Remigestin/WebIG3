@@ -1,60 +1,66 @@
-
+<% layout('../layout') -%>
+<% if(!locals.authenticated) { %>
+<% include ../../partials/head.ejs %>
+<% } %>
+<% if(locals.authenticated && !locals.isadmin) { %>
+<% include ../../partials/headConnect.ejs %>
+<% } %>
+<% if (locals.authenticated && locals.isadmin) { %>
+<% include ../../partials/headAdmin.ejs %>
+<% } %>
 
 <div class="ckeckout">
     <div class="container">
         <div class="ckeck-top heading">
             <h2>PANIER PIANO</h2>
         </div>
-        <div class="ckeckout-top">
-            <div class="cart-items">
-
-                <div class="in-check" >
-                    <ul class="unit panier-fix-head">
-                        <li><span>Nom Album</span></li>
-                        <li><span>Quantité</span></li>
-                        <li><span>Prix unitaire</span></li>
-                        <li><span>Ajouter ou supprimer</span></li>
-                    </ul>
-                    <strong><ul class="cart-header">
-                            <?php
-$nbArticles = count($_SESSION['panierZik']['libelleProduit']);
-if ($nbArticles <= 0)
-    echo "Votre panier est vide";
-else {
-
-	echo "<div >";
-                            for ($i = 0; $i < $nbArticles; $i++) {
+        <div class="container">
+            <table id="cart" class="table table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th style="width:50%">Product</th>
+                    <th style="width:22%" class="text-center">Prix</th>
+                    <th style="width:10%"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <%locals.cart.forEach( function (linecart) { %>
 
 
-                            $a = unserialize($_SESSION['panierZik']['libelleProduit'][$i]);
+                <tr>
+                    <td data-th="Product">
+                        <div class="row">
+                            <div class="col-sm-2 hidden-xs"><img src="<%= linecart.imagealbum %>" alt="..." class="img-responsive"/></div>
+                            <div class="col-sm-10">
+                                <h4 class="nomargin"><%= linecart.nomalbum%></h4>
 
+                            </div>
+                        </div>
+                    </td>
 
-
-                            echo "<li class='panier-description'> " . $a->get('nomAlbum') . "</li>";
-                            echo "<li class='panier-description'> " . $_SESSION['panierZik']['qteProduit'][$i]  . "</li>";
-                            echo "<li class='panier-description'> " . $a->get('prixAlbum')  . "</li>";
-                            echo "<li class='panier-description'> <a  class='btn btn-info' href = \"index.php?action=addOneArticle&controller=panier&idAlbum=" . $a->get("idAlbum") . "\"> + </a>";
-                                echo "     <a class='btn btn-info' href = \"index.php?action=deleteOneArticle&controller=panier&idAlbum=" . $a->get("idAlbum") . "\"> - </a> ";
-                                echo "     <a class='btn btn-danger' href = \"index.php?action=supprimerArticle&controller=panier&idAlbum=" . $a->get("idAlbum") . "\"> Supprimer tout</a></li>";
-
-
-                            }
-                            echo "</div>";
-                echo "<h4><strong>Total : ". $_SESSION['prixPanierZik'] . "€</strong></h4>";
-                echo "<br>";
-                echo "<form method=\"POST\" action=\"index.php?action=choice&controller=coordonnee\">";
-                    echo "<input class='btn btn-success' type=\"submit\" value=\"Valider la commande\"/>";
-                    echo "</form>";
-
-
-                }
-                ?>
-
-                </ul></strong>
-            </div>
+                    <td data-th="Subtotal" class="text-center"><%= linecart.prixalbum%> €</td>
+                    <td class="actions" data-th="">
+                        <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
+                        <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                    </td>
+                </tr>
+                </tbody>
+                <%})%>
+                <tfoot>
+                <tr class="visible-xs">
+                    <td class="text-center"><strong>Total 1.99</strong></td>
+                </tr>
+                <tr>
+                    <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+                    <td colspan="2" class="hidden-xs"></td>
+                    <td class="hidden-xs text-center"><strong>Total : <%= locals.price%> €</strong></td>
+                    <td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+                </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
 </div>
-</div>
+
 
 

@@ -14,7 +14,6 @@ module.exports.controller = function (app, authService, pool) {
             success: function (albums) {
                 authService.authenticate(req, {
                     success: function (id) {
-                        console.log('check oui');
                         userDAO.getById(id, {
                             success: function (user) {
                                 res.status(200);

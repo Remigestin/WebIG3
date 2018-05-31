@@ -3,8 +3,6 @@ module.exports = function(pool) {
     var module = {};
 
 
-
-
     module.addProduct = function(idUser, idAlbum, callback) {
         pool.connect( function(err, client, done) {
             const query = {
@@ -22,7 +20,7 @@ module.exports = function(pool) {
                     callback.fail(err);
                 }
                 else {
-                    callback.success();
+                    callback.success(res);
                 }
             })
         });
@@ -50,6 +48,51 @@ module.exports = function(pool) {
             })
         });
     };
+
+    module.getByUser = function(idUser, callback) {
+        pool.connect( function(err, client, done) {
+            const query = {
+                name: 'getByIdUser',
+                text: 'SELECT idlinecart, iduser, L.idalbum, nomalbum, prixalbum, imagealbum, descriptionalbum FROM public.linecart L, public.album A WHERE A.idalbum = L.idalbum AND iduser = $1',
+                values: [idUser]
+            };
+
+            client.query(query, (err, res) => {
+                done();
+
+                if (err) {
+                    console.log(err);
+                    callback.fail(err);
+                }
+                else {
+                    callback.success(res);
+                }
+            })
+        });
+    };
+
+    module.getPrice = function(idUser, callback) {
+        pool.connect( function(err, client, done) {
+            const query = {
+                name: 'getPrice',
+                text: 'SELECT SUM(prixalbum) FROM public.linecart P, public.album A WHERE A.idalbum = P.idalbum AND iduser = $1',
+                values: [idUser]
+            };
+
+            client.query(query, (err, res) => {
+                done();
+
+                if (err) {
+                    console.log(err);
+                    callback.fail(err);
+                }
+                else {
+                    console.log(res);
+                    callback.success(res.rows[0].sum);
+                }
+            })
+        });
+    }
 
 
     return module;

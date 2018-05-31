@@ -14,6 +14,9 @@ module.exports.controller = function (app, authService, pool) {
     var Review = require('../models/review/review');
     var reviewDAO = require('../models/review/reviewDAO')(pool);
 
+    var Linecart = require('../models/cart/lineCart');
+    var lineCartDAO = require('../models/cart/lineCartDAO')(pool);
+
     //ajout dans le panier
 
     app.get('/cart/add/:idalbum', function (req, res) {
@@ -42,23 +45,52 @@ module.exports.controller = function (app, authService, pool) {
     app.get('/cart', function (req, res) {
         authService.authenticate(req, {
             success: function (idUser) {
-                cartService.getCart(idUser, {
+                lineCartDAO.getByUser(idUser, {
                     success: function (cart) {
-                        res.status(200);
-                        res.redirect('/');
+                        lineCartDAO.getPrice(idUser, {
+                            success: function (price) {
+                                userDAO.getById(idUser, {
+                                    success: function (user) {
+                                        res.status(200);
+                                        res.render('pages/panier/panier', {
+                                            locals: {
+                                                title: 'Panier',
+                                                authenticated: true,
+                                                cart: cart.rows,
+                                                isadmin: user.isadmin,
+                                                pseudo: user.login,
+                                                price: price
+
+                                            }
+                                        });
+                                    },
+                                    fail: function (err) {
+                                        res.status(500);
+                                        res.render('pages/error/error');
+                                    }
+
+                                });
+
+                            },
+                            fail: function (err) {
+                                res.status(500);
+                                res.render('pages/error/error');
+                            }
+                        });
+
+
                     },
                     fail: function (err) {
                         res.status(500);
                         res.render('pages/error/error');
                     }
                 });
-
             },
             fail: function (err) {
+                console.log('PAAAAAAAAAAS CONNECTEE');
                 res.status(200);
                 res.redirect('/user/signin');
             }
         });
-
     });
-}
+};
