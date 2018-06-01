@@ -1,11 +1,14 @@
-module.exports = function(pg, url){
+module.exports = function(pool){
 
 
 
     const module = {};
     //DTO et DAO
     var Cart = require('../models/cart/cart');
-    var lineCartDAO = require('../models/cart/lineCartDAO')(pg, url);
+    var lineCartDAO = require('../models/cart/lineCartDAO')(pool);
+
+    var Order = require('../models/order/order');
+    var orderDAO = require('../models/order/orderDAO')(pool);
 
 
 
@@ -23,7 +26,7 @@ module.exports = function(pg, url){
     };
 
     module.deleteProduct = function (idLineCart, callback) {
-        lineCartDAO.deleteProduct(idUser, idAlbum, {
+        lineCartDAO.deleteProduct(idLineCart, {
             success: function () {
                 callback.success();
 
@@ -34,21 +37,34 @@ module.exports = function(pg, url){
         });
     }
 
-    //return the hashed version of the password
-    module.hashPassword = function (plainPassword) {
-        let salt = bcrypt.genSaltSync(10);
-        return bcrypt.hashSync(plainPassword, salt);
-    };
+    module.fillOrder = function (order, iduser, cart, callback) {
+        lineCartDAO.getByUser(iduser, {
+            success:  function () {
+                var err = false;
+                cart.forEach( async function(linecart) {
+                    await orderDAO.fill(linecart, order, {
+                        success: function() {
+                            console.log('success fill');
+                        },
+                        fail: function (err) {
+                            console.log('error fill');
+                            err = true;
+                        }
+                    })
+                });
+                if (!err) {
+                    callback.success();
+                }else {
+                    callback.fail();
+                }
+            },
+            fail: function(err) {
+                callback.fail(err);
+            }
+        });
+    }
 
-    //return true if hash(plainPassword) == password
-    module.checkPassword = function (plainPassword, hashedPassword) {
-        return bcrypt.compareSync(plainPassword, hashedPassword)
-    };
 
-    // return the jsonWebToken as string
-    module.createToken = function (payload) {
-        return jwt.sign(payload, randomSecretKey);
-    };
 
 
     return module;

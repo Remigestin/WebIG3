@@ -25,7 +25,30 @@ module.exports.controller = function (app, authService, pool) {
                 cartService.addProduct(idUser, escape(req.params.idalbum), {
                     success: function () {
                         res.status(200);
-                        res.redirect('/');
+                        res.redirect('/cart');
+                    },
+                    fail: function (err) {
+                        res.status(500);
+                        res.render('pages/error/error');
+                    }
+                })
+
+            },
+            fail: function (err) {
+                res.status(403);
+                res.render('pages/error/error');
+            }
+        });
+
+    });
+
+    app.delete('/cart/deletelinecart/:idlinecart', function (req, res) {
+        authService.authenticate(req, {
+            success: function (idUser) {
+                cartService.deleteProduct(escape(req.params.idlinecart), {
+                    success: function () {
+                        res.status(200);
+                        res.redirect('/cart');
                     },
                     fail: function (err) {
                         res.status(500);
@@ -68,17 +91,13 @@ module.exports.controller = function (app, authService, pool) {
                                         res.status(500);
                                         res.render('pages/error/error');
                                     }
-
                                 });
-
                             },
                             fail: function (err) {
                                 res.status(500);
                                 res.render('pages/error/error');
                             }
                         });
-
-
                     },
                     fail: function (err) {
                         res.status(500);
@@ -87,7 +106,6 @@ module.exports.controller = function (app, authService, pool) {
                 });
             },
             fail: function (err) {
-                console.log('PAAAAAAAAAAS CONNECTEE');
                 res.status(200);
                 res.redirect('/user/signin');
             }

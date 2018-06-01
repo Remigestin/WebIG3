@@ -49,6 +49,7 @@ require('./routes/homeRouteur').controller(app, authService, pool);
 require('./routes/userRouteur').controller(app, authService, pool);
 require('./routes/albumRouteur').controller(app, authService, pool);
 require('./routes/cartRouteur').controller(app, authService, pool);
+require('./routes/orderRouteur').controller(app, authService, pool);
 
 // catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

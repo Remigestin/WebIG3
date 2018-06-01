@@ -90,9 +90,8 @@ module.exports.controller = function (app, authService, pool) {
                 reviewDAO.create(review, {
                     success: function (savedReview) {
                         res.status(200);
-                        res.redirect('/album/' + savedReview.idalbum);
+                        res.redirect('/album/detail/' + savedReview.idalbum);
                     },
-
                     fail: function () {
                         res.status(500);
                         res.render('pages/error/error');
