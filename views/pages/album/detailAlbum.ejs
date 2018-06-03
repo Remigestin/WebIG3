@@ -69,19 +69,44 @@
                                     <div class="col-sm-9">
                                         <div class="review-block-rate">
 
+                                            <%if (review.note >= 1) {%>
                                             <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                                <%} else {%>
+                                                <button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+                                                    <%}%>
                                                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                                             </button>
-                                            <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+
+
+                                                <%if (review.note >= 2) {%>
+                                                <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                                    <%} else {%>
+                                                    <button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+                                                        <%}%>
                                                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                                             </button>
-                                            <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+
+                                                    <%if (review.note >= 3) {%>
+                                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                                        <%} else {%>
+                                                        <button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+                                                            <%}%>
                                                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                                             </button>
-                                            <button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+
+                                                        <%if (review.note >= 4) {%>
+                                                        <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                                            <%} else {%>
+                                                            <button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+                                                                <%}%>
                                                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                                             </button>
-                                            <button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+
+                                                            <%if (review.note >= 5) {%>
+                                                            <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                                                <%} else {%>
+                                                                <button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+                                                                    <%}%>
                                                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                                             </button>
 

@@ -1,0 +1,25 @@
+<% layout('../layout') -%>
+<% if(!locals.authenticated) {%>
+<% include ../../partials/head.ejs %>
+<%};%>
+
+<% if(locals.authenticated && !locals.isadmin) {%>
+<% include ../../partials/headConnect.ejs %>
+<%};%>
+
+<% if (locals.authenticated && locals.isadmin) {%>
+<% include ../../partials/headAdmin.ejs %>
+<%};%>
+
+<div class='container'>
+    <legend><h3>Mes commandes</h3></legend>
+
+	<ul class='cart-header'>
+        <% var i = 1; locals.orders.forEach( function(order) { %>
+    <li><a href = "/order/detail/<%= order.idorder%>"><h4><strong>Commande n° <%= i %> </strong></h4></a></li><br /><br />
+        <%i++; });%>
+    </ul>
+
+
+</div>
+<br/><br/>

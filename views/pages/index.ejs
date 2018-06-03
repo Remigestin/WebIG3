@@ -16,7 +16,10 @@
     <div class="container">
         <div class="product-top">
 
-                <% locals.albums.forEach(function(album) { %>
+                <% var i =0; locals.albums.forEach(function(album) { %>
+                <%if (i%4 ===0) { %>
+            <div class="product-one">
+                <%}%>
                 <div class="col-md-3 product-left" onClick>
                     <div class="product-main simpleCart_shelfItem list-albumbox">
                         <a href="/album/detail/<%= album.idalbum %>" class="list-albumbox-img mask "><img class="img-responsive zoom-img" src="<%= album.imagealbum %>" alt="" /></a>
@@ -29,7 +32,10 @@
                         </div>
                     </div>
                 </div>
-                <% }); %>
+                <%if (i%4 ===3) { %>
+            </div>
+                    <%}%>
+                <%i++;  }); %>
 
                 <div class="clearfix"></div>
             </div>
