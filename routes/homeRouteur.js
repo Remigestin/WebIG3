@@ -1,6 +1,6 @@
 module.exports.controller = function (app, authService, pool) {
 
-
+    const escape = require("html-escape");
 //DTO et DAO
 
     var userDAO = require('../models/user/userDAO')(pool);
@@ -59,7 +59,7 @@ module.exports.controller = function (app, authService, pool) {
     app.post('/', function (req, res) {
         console.log('homeSearch');
 
-        albumDAO.getBySearch(req.body.search, {
+        albumDAO.getBySearch(escape(req.body.search), {
             success: function (albums) {
                 authService.authenticate(req, {
                     success: function (id) {

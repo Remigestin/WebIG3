@@ -1,7 +1,6 @@
 module.exports.controller = function (app, authService, pool) {
 
-
-
+    const escape = require("html-escape");
 
 
 
@@ -21,13 +20,13 @@ module.exports.controller = function (app, authService, pool) {
     //inscription d'un utilisateur
     app.post('/user/signup', function (req, res) {
         console.log("adduser");
-        userDAO.getByPseudo(req.body.login, {
+        userDAO.getByPseudo(escape(req.body.login), {
             success: function(user) {
                 res.render('pages/user/signup', {locals:{title: 'Inscription', alreadyExist: true}});
             },
 
             fail: function() {
-                var user = new User(null, req.body.login, authService.hashPassword(req.body.password), req.body.email, false, null);
+                var user = new User(null, escape(req.body.login), authService.hashPassword(req.body.password), escape(req.body.email), false, null);
                 userDAO.create(user, {
                     success: function (savedUser) {
                         var token = authService.createToken(savedUser.iduser);
@@ -53,10 +52,10 @@ module.exports.controller = function (app, authService, pool) {
     //connexion d'un utilisateur
     app.post('/user/signin', function (req, res) {
 
-        userDAO.getByPseudo(req.body.pseudo, {
+        userDAO.getByPseudo(escape(req.body.pseudo), {
 
             success: function (user) {
-                if (authService.checkPassword(req.body.password, user.password)) {
+                if (authService.checkPassword(escape(req.body.password), user.password)) {
                     var token = authService.createToken(user.iduser);
                     res.cookie('Zicotech', token, {expires: new Date(Date.now() + 900000), httpOnly: true});
                     res.status(200);
