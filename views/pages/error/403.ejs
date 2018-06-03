@@ -1,0 +1,18 @@
+<% layout('../layout') -%>
+<% if(!locals.authenticated) {%>
+<% include ../../partials/head.ejs %>
+<%};%>
+
+<% if(locals.authenticated && !locals.isadmin) {%>
+<% include ../../partials/headConnect.ejs %>
+<%};%>
+
+<% if (locals.authenticated && locals.isadmin) {%>
+<% include ../../partials/headAdmin.ejs %>
+<%};%>
+<div class="row">
+    <div class="col l10 col-lg-offset-4">
+        <h1><%= error.status %></h1>
+        <h2>ACCESS FORBIDEN<h2>
+    </div>
+</div>

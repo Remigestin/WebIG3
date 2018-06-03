@@ -5,20 +5,12 @@ module.exports.controller = function (app, authService, pool) {
 
 
 //DTO et DAO
-    var Album = require('../models/album/album');
-    var albumDAO = require('../models/album/albumDAO')(pool);
 
-    var User = require('../models/user/user');
     var userDAO = require('../models/user/userDAO')(pool);
 
-    var Review = require('../models/review/review');
-    var reviewDAO = require('../models/review/reviewDAO')(pool);
-
-    var Linecart = require('../models/cart/lineCart');
     var lineCartDAO = require('../models/cart/lineCartDAO')(pool);
 
-    //ajout dans le panier
-
+    //ajout dans d'un album dans le panier
     app.get('/cart/add/:idalbum', function (req, res) {
         authService.authenticate(req, {
             success: function (idUser) {
@@ -42,6 +34,7 @@ module.exports.controller = function (app, authService, pool) {
 
     });
 
+    //suppresion d'un album du panier
     app.delete('/cart/deletelinecart/:idlinecart', function (req, res) {
         authService.authenticate(req, {
             success: function (idUser) {
@@ -65,6 +58,7 @@ module.exports.controller = function (app, authService, pool) {
 
     });
 
+    //afficher le panier
     app.get('/cart', function (req, res) {
         authService.authenticate(req, {
             success: function (idUser) {

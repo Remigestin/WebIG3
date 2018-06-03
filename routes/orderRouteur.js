@@ -6,18 +6,15 @@ module.exports.controller = function (app, authService, pool) {
 
 //DTO et DAO
 
-    var User = require('../models/user/user');
+
     var userDAO = require('../models/user/userDAO')(pool);
 
-    var Linecart = require('../models/cart/lineCart');
     var lineCartDAO = require('../models/cart/lineCartDAO')(pool);
 
     var Order = require('../models/order/order');
     var orderDAO = require('../models/order/orderDAO')(pool);
 
-
-    app.get
-
+//créer une commande
     app.get('/order/create', function (req, res) {
         authService.authenticate(req, {
             success: function (idUser) {
@@ -57,6 +54,7 @@ module.exports.controller = function (app, authService, pool) {
         });
     });
 
+    //afficher la liste des commandes passées
     app.get('/orders', function (req, res) {
         authService.authenticate(req, {
             success: function (idUser) {
@@ -96,6 +94,7 @@ module.exports.controller = function (app, authService, pool) {
 
     });
 
+    //voir le détail d'une commande
     app.get('/order/detail/:id', function (req, res) {
         console.log("detailorder");
         authService.authenticate(req, {

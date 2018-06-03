@@ -6,7 +6,7 @@ module.exports.controller = function (app, authService, pool) {
     var userDAO = require('../models/user/userDAO')(pool);
     var albumDAO = require('../models/album/albumDAO')(pool);
 
-//accueil
+//Afficher la, page d'accueil
     app.get('/', function (req, res) {
         console.log('home');
 
@@ -17,7 +17,8 @@ module.exports.controller = function (app, authService, pool) {
                         userDAO.getById(id, {
                             success: function (user) {
                                 res.status(200);
-                                res.render('pages/index', {locals: {
+                                res.render('pages/index', {
+                                    locals: {
                                         title: 'Zicotech',
                                         authenticated: true,
                                         albums: albums.rows,
@@ -36,7 +37,13 @@ module.exports.controller = function (app, authService, pool) {
 
                     fail: function () {
                         res.status(200);
-                        res.render('pages/index', {locals: {title: 'Zicotech', authenticated: false, albums: albums.rows}});
+                        res.render('pages/index', {
+                            locals: {
+                                title: 'Zicotech',
+                                authenticated: false,
+                                albums: albums.rows
+                            }
+                        });
                     }
                 });
             },
@@ -48,11 +55,11 @@ module.exports.controller = function (app, authService, pool) {
 
     });
 
-    //barre de recherche
+    //faire une recherche
     app.post('/', function (req, res) {
         console.log('homeSearch');
 
-        albumDAO.getBySearch(req.body.search,{
+        albumDAO.getBySearch(req.body.search, {
             success: function (albums) {
                 authService.authenticate(req, {
                     success: function (id) {
@@ -60,7 +67,8 @@ module.exports.controller = function (app, authService, pool) {
                         userDAO.getById(id, {
                             success: function (user) {
                                 res.status(200);
-                                res.render('pages/index', {locals: {
+                                res.render('pages/index', {
+                                    locals: {
                                         title: 'Zicotech',
                                         authenticated: true,
                                         albums: albums.rows,
@@ -80,7 +88,13 @@ module.exports.controller = function (app, authService, pool) {
                     fail: function () {
                         res.status(200);
                         console.log(albums.rows);
-                        res.render('pages/index', {locals: {title: 'Zicotech', authenticated: false, albums: albums.rows}});
+                        res.render('pages/index', {
+                            locals: {
+                                title: 'Zicotech',
+                                authenticated: false,
+                                albums: albums.rows
+                            }
+                        });
                     }
                 });
             },

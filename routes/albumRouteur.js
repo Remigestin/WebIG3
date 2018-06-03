@@ -6,31 +6,25 @@ module.exports.controller = function (app, authService, pool) {
     var Album = require('../models/album/album');
     var albumDAO = require('../models/album/albumDAO')(pool);
 
-    var User = require('../models/user/user');
     var userDAO = require('../models/user/userDAO')(pool);
 
     var Review = require('../models/review/review');
     var reviewDAO = require('../models/review/reviewDAO')(pool);
 
 
-//afficher detail
+//afficher la page d'un album
 
     app.get('/album/detail/:id', function (req, res) {
-        console.log("detailAlbum");
 
         albumDAO.getById(req.params.id, {
             success: function (album) {
                 reviewDAO.getByAlbum(album.idalbum, {
                     success: function (reviews) {
-
                         authService.authenticate(req, {
                             success: function (idUser) {
                                 userDAO.getById(idUser, {
                                     success: function (user) {
                                         res.status(200);
-                                        console.log(reviews.rows);
-
-
                                         res.render('pages/album/detailAlbum', {
                                             locals: {
                                                 title: album.nomalbum,
@@ -52,7 +46,6 @@ module.exports.controller = function (app, authService, pool) {
                             },
 
                             fail: function () {
-                                console.log(reviews.rows);
                                 res.status(200);
                                 res.render('pages/album/detailAlbum', {
                                     locals: {
@@ -81,11 +74,9 @@ module.exports.controller = function (app, authService, pool) {
     });
 
     //ajouter une review à l'album
-
     app.post('/album/addreview', function (req, res) {
         authService.authenticate(req, {
             success: function (idUser) {
-                console.log(req.body);
                 var review = new Review(null, req.body.commentaire, req.body.note, null, idUser, req.body.idalbum);
                 reviewDAO.create(review, {
                     success: function (savedReview) {
@@ -107,22 +98,20 @@ module.exports.controller = function (app, authService, pool) {
 
     });
 
+    //supprimer un album
     app.delete('/album/delete/:id', function (req, res) {
-        console.log('_______delete______');
+
         authService.authenticate(req, {
             success: function (id) {
-                console.log('connecté');
                 userDAO.getById(id, {
                     success: function (user) {
                         if (user.isadmin) {
                             albumDAO.delete(req.params.id, {
                                 success: function (result) {
-                                    console.log('delete success');
                                     res.status(200);
                                     res.redirect('/album');
                                 },
                                 fail: function (err) {
-                                    console.log('delete tag fail');
                                     res.status(500);
                                     res.render('pages/error/error', {
                                         locals: {
@@ -135,9 +124,8 @@ module.exports.controller = function (app, authService, pool) {
                                 }
                             });
                         } else {
-                            console.log('access forbidden');
                             res.status(403);
-                            res.render('pages/403', {locals: {title: 'error 403', authenticated: true}});
+                            res.render('pages/error/403', {locals: {title: 'error 403', authenticated: true}});
                         }
                     },
                     fail: function (err) {
@@ -155,6 +143,7 @@ module.exports.controller = function (app, authService, pool) {
         })
     });
 
+    //accéder au formulaire d'ajout d'un album
     app.get('/album/add', function (req, res) {
         authService.authenticate(req, {
             success: function (idUser) {
@@ -190,6 +179,7 @@ module.exports.controller = function (app, authService, pool) {
         });
     });
 
+//ajouter un album
     app.post('/album/add', function (req, res) {
         authService.authenticate(req, {
             success: function (idUser) {
@@ -230,7 +220,7 @@ module.exports.controller = function (app, authService, pool) {
         });
     });
 
-
+//accéder au formulaire de modification d'un album
     app.get('/album/update/:id', function (req, res) {
         authService.authenticate(req, {
             success: function (idUser) {
@@ -250,14 +240,14 @@ module.exports.controller = function (app, authService, pool) {
                                     });
                                 },
                                 fail: function (err) {
-                                    res.status(500);
-                                    res.render('pages/error/error');
+                                    res.status(403);
+                                    res.render('pages/error/403');
                                 }
                             });
                         }
                         else {
                             res.status(403);
-                            res.render('pages/error/error');
+                            res.render('pages/error/403');
                         }
                     },
                     fail: function (err) {
@@ -267,13 +257,13 @@ module.exports.controller = function (app, authService, pool) {
                 });
             },
             fail: function (err) {
-                console.log('non connecté');
                 res.status(403);
-                res.render('pages/403', {locals: {title: 'error 403'}});
+                res.render('pages/error/403', {locals: {title: 'error 403'}});
             }
         });
     });
 
+    //modifier un album
     app.put('/album/update', function (req, res) {
         authService.authenticate(req, {
             success: function (idUser) {
@@ -306,11 +296,9 @@ module.exports.controller = function (app, authService, pool) {
 
             },
             fail: function (err) {
-                console.log('non connecté');
                 res.status(403);
-                res.render('pages/403', {locals: {title: 'error 403'}});
+                res.render('pages/error/403', {locals: {title: 'error 403'}});
             }
-
         });
     });
 }

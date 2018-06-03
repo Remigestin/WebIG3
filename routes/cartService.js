@@ -4,15 +4,13 @@ module.exports = function(pool){
 
     const module = {};
     //DTO et DAO
-    var Cart = require('../models/cart/cart');
+
     var lineCartDAO = require('../models/cart/lineCartDAO')(pool);
 
-    var Order = require('../models/order/order');
     var orderDAO = require('../models/order/orderDAO')(pool);
 
 
-
-    //callback succeed if authenticate succeed, otherwise callback fail
+//ajoute un album au panier
     module.addProduct = function (idUser, idAlbum, callback) {
             lineCartDAO.addProduct(idUser, idAlbum, {
                 success: function () {
@@ -25,6 +23,7 @@ module.exports = function(pool){
         });
     };
 
+    //supprmime un album du panier
     module.deleteProduct = function (idLineCart, callback) {
         lineCartDAO.deleteProduct(idLineCart, {
             success: function () {
@@ -37,6 +36,7 @@ module.exports = function(pool){
         });
     }
 
+    //remplit une commande avec les produits du panier
     module.fillOrder = function (order, iduser, cart, callback) {
         lineCartDAO.getByUser(iduser, {
             success:  function () {

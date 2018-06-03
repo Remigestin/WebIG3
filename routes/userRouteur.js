@@ -11,12 +11,14 @@ module.exports.controller = function (app, authService, pool) {
     var userDAO = require('../models/user/userDAO')(pool);
 
 
-//inscription
+//afficher la page d'inscription
 
     app.get('/user/signup', function(req, res) {
         res.render('pages/user/signup', {title: 'Inscription'});
     });
 
+
+    //inscription d'un utilisateur
     app.post('/user/signup', function (req, res) {
         console.log("adduser");
         userDAO.getByPseudo(req.body.login, {
@@ -43,11 +45,12 @@ module.exports.controller = function (app, authService, pool) {
 
     });
 
-//connexion
+//afficher la page de connexion
     app.get('/user/signin', function (req, res) {
       res.render('pages/user/signin', {title: 'Connexion'});
     });
 
+    //connexion d'un utilisateur
     app.post('/user/signin', function (req, res) {
 
         userDAO.getByPseudo(req.body.pseudo, {
@@ -77,10 +80,5 @@ module.exports.controller = function (app, authService, pool) {
         res.clearCookie('Zicotech');
         res.redirect('/');
     })
-
-
-
-
-
 
 }
